@@ -7,6 +7,10 @@ class MoviesController < ApplicationController
     render({ :template => "movies/index" })
   end
 
+  def new
+    render template: "movies/new"
+  end
+
   def show
     the_id = params.fetch("id")
 
@@ -33,7 +37,7 @@ class MoviesController < ApplicationController
 
   def update
     the_id = params.fetch("id")
-    the_movie = Movie.where({ :id => the_id }).first
+    @the_movie = Movie.where({ :id => the_id }).first
 
     the_movie.title = params.fetch("query_title")
     the_movie.description = params.fetch("query_description")
@@ -54,5 +58,11 @@ class MoviesController < ApplicationController
     the_movie.destroy
 
     redirect_to("/movies", { :notice => "Movie deleted successfully."} )
+  end
+
+  def edit
+    # code here
+    @the_movie = Movie.where(id: params.fetch(:id))[0]
+    render template: "movies/edit"
   end
 end
